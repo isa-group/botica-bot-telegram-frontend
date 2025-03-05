@@ -1,0 +1,12 @@
+# DS_Store Files
+**/.DS_Store
+
+# IDEA Files
+.idea/
+*.iml
+
+# VSCode Settings
+.vscode/
+
+node_modules/
+package-lock.json

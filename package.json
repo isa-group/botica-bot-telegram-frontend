@@ -1,0 +1,16 @@
+{
+  "name": "botica-bot-example",
+  "author": "Author",
+  "version": "1.0.0",
+  "imageTag": "botica-bot-example",
+  "description": "Seed for Botica Node bots using botica-lib-node",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "botica-lib-node": "^0.0.2"
+  }
+}

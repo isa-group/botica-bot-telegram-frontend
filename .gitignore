@@ -5,6 +5,8 @@
 .idea/
 *.iml
 
+dist/
+
 # VSCode Settings
 .vscode/
 

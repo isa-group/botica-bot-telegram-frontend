@@ -1,18 +1,40 @@
-# botica-seed-node
-Template project to facilitate implementing, compiling, and building Botica bots using npm and [botica-lib-node](https://github.com/isa-group/botica-lib-node/).
+# botica-bot-telegram-frontend
 
-## Usage
+A Telegram bot frontend for your Botica bots. 
+This bot allows other bots to send information, ask for input, or request confirmation from human 
+users via Telegram.
 
-1. [Create a repository based on this template](https://github.com/new?template_name=botica-seed-node&template_owner=isa-group).
+## Setup
 
-2. Modify the `package.json` file, specifically:
-    1. The `name` and `author` properties.
-    2. The `imageTag` property. The build script will take the tag for the resulting Docker image from this property.
+- This bot requires the `TELEGRAM_BOT_TOKEN` environment variable to function. Create a bot using the
+`@BotFather` bot in Telegram and get your token from there.
 
-3. Implement your bot's logic. You can follow one of [these examples](./src/examples).
-> [!NOTE]
-> Full project examples are also available, with their respective Node implementations using TypeScript. Check out [botica-infrastructure-fishbowl](https://github.com/isa-group/botica-infrastructure-fishbowl).
+- If you want to persist subscribed users between runs, you must link the `/app/.telegram-bot-data`
+directory to your host machine.
 
-4. Run the build script. This script builds the Docker image for you based on the `imageTag` property in your `package.json`.
-    1. For Linux or macOS systems, run `./build.sh` in your IDE's terminal.
-    2. For Windows systems, run `build.bat` in your IDE's terminal.
+Example configuration section to integrate this bot into a Botica environment:
+
+```yml
+  telegram:
+    image: "botica-bot-telegram-frontend"
+    lifecycle:
+      type: reactive
+    mount:
+      - source: ".telegram-bot-data"
+        target: "/app/.telegram-bot-data"
+        createHostPath: true
+    subscribe:
+      - key: "user_interaction"
+    instances:
+      telegram:
+        environment:
+          - TELEGRAM_BOT_TOKEN=TOKEN
+```
+
+## Available orders for your bots
+
+### notify_users
+Sends a message to all subscribed Telegram users. For example:
+```ts
+await bot.publishOrder("Hello there!", "user_interaction", "notify_users");
+```

@@ -25,5 +25,8 @@ bot.onOrderReceived(async (message) => {
   }
 }, "broadcast_message");
 
-await telegramBot.start().then(() => logger.info("Telegram bot started."));
-await bot.start().then(() => logger.info("Botica bot started."));
+telegramBot.start(); // promise never resolves
+logger.info("Telegram bot started.");
+
+await bot.start();
+logger.info("Botica bot started.");

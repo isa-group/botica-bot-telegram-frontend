@@ -13,7 +13,7 @@ if (!TELEGRAM_BOT_TOKEN) {
 const bot = await botica();
 const telegramBot = createTelegramBot(bot, TELEGRAM_BOT_TOKEN);
 
-bot.onOrderReceived(async (message) => {
+bot.on("broadcast_message", async (message) => {
   for (const userId of subscribedUsers) {
     try {
       await telegramBot.api.sendMessage(userId, message);
@@ -23,7 +23,7 @@ bot.onOrderReceived(async (message) => {
       );
     }
   }
-}, "broadcast_message");
+});
 
 telegramBot.start(); // promise never resolves
 logger.info("Telegram bot started.");

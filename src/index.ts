@@ -15,7 +15,7 @@ const bot = await botica();
 const telegramBot = createTelegramBot(TELEGRAM_BOT_TOKEN);
 
 interface SendMessageProps {
-  recipient?: "broadcast";
+  recipient: "broadcast";
   content: string;
 }
 
@@ -34,7 +34,7 @@ bot.on("send_message", async (message) => {
 });
 
 interface SendDocumentProps {
-  recipient?: "broadcast";
+  recipient: "broadcast";
   type?: "document" | "picture";
   localPath?: string;
   url?: string;
@@ -63,15 +63,14 @@ bot.on("send_document", async (message) => {
   }
 
   const api = telegramBot.api;
-  const methodName =
-    type === "picture" ? "sendPhoto" : "sendDocument";
+  const methodName = type === "picture" ? "sendPhoto" : "sendDocument";
 
   for (const userId of subscribedUsers) {
     try {
       await api[methodName](userId, file, { caption });
     } catch (error) {
       logger.error(
-        `Failed to send message to ${userId}: ${formatError(error)}`
+        `Failed to send message to ${userId}: ${formatError(error)}`,
       );
     }
   }

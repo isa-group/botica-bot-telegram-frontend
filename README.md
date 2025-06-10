@@ -31,40 +31,41 @@ Example configuration section to integrate this bot into a Botica environment:
 
 ### send_message
 
-Sends a text message to all subscribed Telegram users.
+Send a text message to all subscribed Telegram users.
 
 #### Properties
 
 | Property    | Type     | Required? | Description                                                                                                 |
 |:------------|:---------|:----------|:------------------------------------------------------------------------------------------------------------|
+| `recipient` | `string` | Yes       | Defines the target audience. Currently, only `broadcast` is supported, which sends to all subscribed users. |
 | `content`   | `string` | Yes       | The text content of the message to be sent.                                                                 |
-| `recipient` | `string` | No        | Defines the target audience. Currently, only `broadcast` is supported, which sends to all subscribed users. |
 
 #### Usage Example
 
 ```ts
 await bot.publishOrder(
-    "telegram_bot",
-    "send_message",
-    {
-      content: "Hi there! This is a broadcast message from another bot."
-    },
+        "telegram_bot",
+        "send_message",
+        {
+          recipient: "broadcast",
+          content: "Hi there! This is a broadcast message from another bot.",
+        },
 );
 ```
 
 ### send_document
 
-Sends a document or a photo to all subscribed Telegram users from a local path or a URL.
+Send a document or a photo to all subscribed Telegram users from a local path or a URL.
 
 #### Properties
 
 | Property    | Type                        | Required?   | Description                                                                                                |
 |:------------|:----------------------------|:------------|:-----------------------------------------------------------------------------------------------------------|
-| `caption`   | `string`                    | No          | The caption to include with the file.                                                                      |
-| `type`      | `"document"` \| `"picture"` | No          | Specifies whether to send the file as a generic document or as a photo. **Defaults to `document`**.        |
+| `recipient` | `string`                    | Yes         | Defines the target audience. Currently, only `broadcast` is supported.                                     |
 | `localPath` | `string`                    | Conditional | The absolute path to the file on the bot's local filesystem. You must provide either `localPath` or `url`. |
 | `url`       | `string`                    | Conditional | A public URL pointing to the file. You must provide either `localPath` or `url`.                           |
-| `recipient` | `string`                    | No          | Defines the target audience. Currently, only `broadcast` is supported.                                     |
+| `type`      | `"document"` \| `"picture"` | No          | Specifies whether to send the file as a generic document or as a photo. **Defaults to `document`**.        |
+| `caption`   | `string`                    | No          | The caption to include with the file.                                                                      |
 
 #### Usage Examples
 
@@ -75,6 +76,7 @@ await bot.publishOrder(
     "telegram_bot",
     "send_document",
     {
+      recipient: "broadcast",
       localPath: "/app/reports/report-Q2.pdf", // Path must be accessible by the bot container
       caption: "Here is the latest report.",
     },
@@ -88,6 +90,7 @@ await bot.publishOrder(
     "telegram_bot",
     "send_document",
     {
+      recipient: "broadcast",
       url: "https://www.nasa.gov/sites/default/files/thumbnails/image/j2m-shareable.jpg",
       type: "picture",
       caption: "Check out this cool picture from NASA!",
